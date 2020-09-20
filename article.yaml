@@ -1,6 +1,7 @@
 ~version: "2.1"
 <div>: //a[.//img]
 <div>: //p[.//img]
+<div>: //p[.//iframe]
 
 # fundamentals
 
