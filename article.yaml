@@ -1,0 +1,42 @@
+~version: "2.1"
+<div>: //a[.//img]
+<div>: //p[.//img]
+
+# fundamentals
+
+## TODO: join channel button
+channel: @discoursio
+## body - article content with main-content class
+body:     //div[has-class("main-content")]
+## site name
+site_name: Discours
+
+# title, author, date
+title:    $body//h1[1]
+author:   $body//span[has-class("author")]
+author_url: //span[has-class("author")]/a/@href
+published_date: //div[has-class("date-time")]
+
+@remove: //span[has-class("author")]
+@remove: //div[has-class("footer-post")]
+
+# remove after articles
+@remove: //div[has-class("slick-track")]/div[has-class("slick-slide") and position() > 5]
+
+<pic>: //img[has-class("article__image")]
+@set_attr(src, @srcset)
+@set_attr(width, "200px")
+
+# remove what we don't need in Instant View
+@remove: //div[has-class("hide")]
+# share buttons of social networks
+@remove: //div[has-class("social-buttons-absolute")]
+
+# footer trash cleaned
+@remove: //button[has-class("slick-prev")]
+@remove: //button[has-class("slick-next")]
+
+@remove: //div[has-class("comments-wrapper")]
+@remove: //new-comment
+
+
