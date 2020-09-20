@@ -18,30 +18,48 @@ author:   $body//span[has-class("author")]
 author_url: //span[has-class("author")]/a/@href
 published_date: //div[has-class("date-time")]
 
+# post image subscript
+<sub>: //p[has-class("image-description")]
+
 # lead
 <b>: //p[span[has-class("lead")]]
 @wrap(<p>)
 
-@remove: //span[has-class("author")]
-@remove: //div[has-class("footer-post")]
+# After posts
 
-# remove after articles
+## only 5 articles
 @remove: //div[has-class("slick-track")]/div[has-class("slick-slide") and position() > 5]
 
-<pic>: //img[has-class("article__image")]
-@set_attr(src, @srcset)
-@set_attr(width, "200px")
+## change afterpost image preview
+#<pic>: //img[has-class("article__image")]
+#@set_attr(src, @srcset)
+#@set_attr(width, "200px")
+
+##
+@remove: //div[has-class("article__inner")]/a[position() >= 1]
+@remove: //div[has-class("article__details")]/*/*[has-class("article__category") or has-class("article__author")]
+
+## convert to related
+<related>: //div[has-class("after-post")]
 
 # remove what we don't need in Instant View
+
+## remove left numbers
+@remove: //span[has-class("lit-pager")]
+
 @remove: //div[has-class("hide")]
 # share buttons of social networks
 @remove: //div[has-class("social-buttons-absolute")]
 
 # footer trash cleaned
+@remove: //span[has-class("author")]
+@remove: //div[has-class("footer-post")]
+
 @remove: //button[has-class("slick-prev")]
 @remove: //button[has-class("slick-next")]
 
 @remove: //div[has-class("comments-wrapper")]
 @remove: //new-comment
+@remove: //*[@name="comments"]
 
 
