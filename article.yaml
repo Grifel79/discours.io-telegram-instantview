@@ -45,6 +45,9 @@ published_date: //div[has-class("date-time")]
 
 # remove what we don't need in Instant View
 
+## remove popular
+@remove: //div[@id="popular-posts"]
+
 ## remove left numbers
 @remove: //span[has-class("lit-pager")]
 
