@@ -38,8 +38,6 @@ published_date: //div[has-class("date-time")]
 
 <slideshow>: //div[has-class("carousel-container")]
 @after(<figcaption>, content, @title): //slideshow/*/*/img
-@replace("", $content): //figcaption/text()
-
 
 
 @remove: //div/*[has-class("carousel-thumbs")]
