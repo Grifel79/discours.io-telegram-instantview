@@ -1,9 +1,14 @@
 ~version: "2.1"
+
+# fix markup
 <div>: //a[.//img]
 <div>: //p[.//img]
 <div>: //p[.//iframe]
 
 # fundamentals
+
+## dont generate instant view for music player articles
+#!path_not: /expo/music
 
 ## TODO: join channel button
 channel: @discoursio
@@ -26,10 +31,25 @@ published_date: //div[has-class("date-time")]
 <b>: //p[span[has-class("lead")]]
 @wrap(<p>)
 
+# parse carousel
+
+<div>: //div[has-class("carousel-container")]/ul
+<div>: //div[has-class("carousel-container")]/ul/li
+
+<slideshow>: //div[has-class("carousel-container")]
+@after(<figcaption>, content, @title): //slideshow/*/*/img
+@replace("", $content): //figcaption/text()
+
+
+
+@remove: //div/*[has-class("carousel-thumbs")]
+@remove: //p[@id="expo-modal-label"]
+@remove: //div[has-class("rn-carousel-controls")]
+
 # After posts
 
 ## only 5 articles
-@remove: //div[has-class("slick-track")]/div[has-class("slick-slide") and position() > 5]
+@remove: //div[has-class("slick-track")]/div[position() >= 6]
 
 ## change afterpost image preview
 #<pic>: //img[has-class("article__image")]
