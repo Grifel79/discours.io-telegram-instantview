@@ -29,7 +29,7 @@ published_date: //div[has-class("date-time")]
 <sub>: //p[has-class("image-description")]
 
 # lead
-<b>: //p[span[has-class("lead")]]
+<b>: //p//*[has-class("lead")]
 @wrap(<p>)
 
 # parse carousel
