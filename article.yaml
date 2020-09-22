@@ -54,7 +54,11 @@ published_date: //div[has-class("date-time")]
 @remove: //p[@id="expo-modal-label"]
 @remove: //div[has-class("rn-carousel-controls")]
 
-# After posts
+# pull video from list
+@split_parent: //div[has-class("video-wrapper")]
+$video_containers: //ul[div[has-class("video-wrapper")]]
+@remove: $video_containers/li
+<div>: $video_containers
 
 ## only 5 articles
 @remove: //div[has-class("slick-track")]/div[position() >= 6]
