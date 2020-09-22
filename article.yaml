@@ -36,12 +36,20 @@ published_date: //div[has-class("date-time")]
 # parse carousel
 
 <div>: //div[has-class("carousel-container")]/ul
-<div>: //div[has-class("carousel-container")]/ul/li
+<figure>: //div[has-class("carousel-container")]/*/li
 
 <slideshow>: //div[has-class("carousel-container")]
-@after(<figcaption>, content, @title): //slideshow/*/*/img
 
+# if there is caption under pictures
+@if (//p[@id="expo-modal-label"]) {
+  @after(<figcaption>, text, @title): //slideshow/*/*/img
+  @append(@text): //slideshow/*/*/figcaption
+  ## regex capture cleaning
+  @replace(" — discours.io", ""): //slideshow/*/*/figcaption/text()
+  @replace("^(.+?), ", ""): //slideshow/*/*/figcaption/text()
+}
 
+# clean carousel
 @remove: //div/*[has-class("carousel-thumbs")]
 @remove: //p[@id="expo-modal-label"]
 @remove: //div[has-class("rn-carousel-controls")]
