@@ -19,8 +19,7 @@ body:     //div[has-class("main-content")]
 site_name: Discours
 
 # title, category, author, date
-$title: $body//h1[1]/text()
-title: $title
+title: $body//h1[1]/text()
 kicker: //span[has-class("category")]
 author:   $body//span[has-class("author")]
 author_url: //span[has-class("author")]/a/@href
