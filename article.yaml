@@ -74,6 +74,7 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 
 ## convert to related
 <related>: //div[has-class("after-post")]
+@set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=0688c9787e4f4e"): //related//a
 
 # remove what we don't need in Instant View
 
@@ -97,5 +98,3 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 @remove: //div[has-class("comments-wrapper")]
 @remove: //new-comment
 @remove: //*[@name="comments"]
-
-
