@@ -25,6 +25,7 @@ author:   $body//span[has-class("author")]
 author_url: //span[has-class("author")]/a/@href
 published_date: //div[has-class("date-time")]
 
+
 # post image subscript
 <sub>: //p[has-class("image-description")]
 
@@ -82,14 +83,10 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 
 ## remove left numbers
 @remove: //span[has-class("lit-pager")]
-
 @remove: //div[has-class("hide")]
-# share buttons of social networks
-@remove: //div[has-class("social-buttons-absolute")]
 
 # footer trash cleaned
 @remove: //span[has-class("author")]
-@remove: //div[has-class("footer-post")]
 
 @remove: //button[has-class("slick-prev")]
 @remove: //button[has-class("slick-next")]
@@ -97,3 +94,17 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 @remove: //div[has-class("comments-wrapper")]
 @remove: //new-comment
 @remove: //*[@name="comments"]
+
+# leave only tags in footer
+
+$footer: //div[has-class("footer-post")]
+
+@remove: $footer//div[has-class("author-time-counters")]
+@remove: $footer//donate-form
+@remove: $footer//div[has-class("social-buttons-absolute")]
+
+$tags: //ul[has-class("tags")]
+@remove: $tags/li/*[has-class("tag-counter")]
+<p>: $tags/li
+@combine(" • ")
+<div>: $tags
