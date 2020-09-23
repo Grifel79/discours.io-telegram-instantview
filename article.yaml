@@ -73,13 +73,16 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 @remove: //div[has-class("article__details")]/*/*[has-class("article__category") or has-class("article__author")]
 
 ## convert to related
-<related>: //div[has-class("after-post")]
+<related>: //div[has-class("after-post") or @id="popular-posts"]
 @set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=0688c9787e4f4e"): //related//a
 
 # remove what we don't need in Instant View
 
+## remove afterpost
+#@remove: //div[has-class("after-post")]
+
 ## remove popular
-@remove: //div[@id="popular-posts"]
+#@remove: //div[@id="popular-posts"]
 
 ## remove left numbers
 @remove: //span[has-class("lit-pager")]
@@ -108,3 +111,6 @@ $tags: //ul[has-class("tags")]
 <p>: $tags/li
 @combine(" • ")
 <div>: $tags
+
+# footer before related
+@before_el(//related): $footer
