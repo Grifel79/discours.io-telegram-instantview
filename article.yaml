@@ -115,7 +115,6 @@ $tags: //ul[has-class("tags")]
 @combine(" • ")
 @prepend(<b>): $tags/div
 @append("Темы: "): $tags/div/b
-@debug: $tags
 <p>: $tags
 
 # footer before related
