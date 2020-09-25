@@ -108,9 +108,12 @@ $footer: //div[has-class("footer-post")]
 
 $tags: //ul[has-class("tags")]
 @remove: $tags/li/*[has-class("tag-counter")]
-<p>: $tags/li
+<div>: $tags/li
 @combine(" • ")
-<div>: $tags
+@prepend(<b>): $tags/div
+@append("Темы: "): $tags/div/b
+@debug: $tags
+<p>: $tags
 
 # footer before related
 @before_el(//related): $footer
