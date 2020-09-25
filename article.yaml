@@ -27,7 +27,10 @@ published_date: //div[has-class("date-time")]
 
 
 # post image subscript
-<sub>: //p[has-class("image-description")]
+@wrap(<figure>, class, "title-image"): //img[has-class("expo-item-title-image")]
+<figcaption>: (//p[has-class("image-description")])[1]
+@append_to(//figure[has-class("title-image")])
+
 
 # lead
 <b>: //p//*[has-class("lead")]
