@@ -78,7 +78,7 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 
 ## convert to related
 <related>: //div[has-class("after-post") or @id="popular-posts"]
-@set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=0688c9787e4f4e"): //related//a
+@set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=9ebd7b52652e1b"): //related//a
 
 # remove what we don't need in Instant View
 
@@ -87,6 +87,9 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 
 ## remove popular
 #@remove: //div[@id="popular-posts"]
+
+## remove side-banners
+@remove: //side-banners
 
 ## remove left numbers
 @remove: //span[has-class("lit-pager")]
