@@ -1,12 +1,5 @@
 ~version: "2.1"
 
-# fix markup
-<div>: //a[.//img]
-<div>: //p[.//img]
-<div>: //p[.//iframe]
-
-# fundamentals
-
 ## dont generate instant view for music player articles
 ?path:     /.+
 !path_not: /expo/music/.+
@@ -18,12 +11,29 @@ body:     //div[has-class("main-content")]
 ## site name
 site_name: Discours
 
+# fix nesting
+$problems: $body
+@while( $problems ) {
+  $test: $body//*[self::*[has-class("fb-post")] or self::blockquote or self::aside or self::figure or self::img[not(./ancestor::figure)] or self::iframe[not(./ancestor::figure)] or self::script[@data-telegram-post] or self::slideshow[not(./ancestor::figure)] or self::video[not(./ancestor::figure)] or self::audio[not(./ancestor::figure)] or self::related or self::footer or self::table[not(ancestor::table) and not(descendant::table)]]
+  $problems: $test/self::*[ancestor::anchor or ancestor::blockquote[not(contains(@class,"instagram"))] or ancestor::aside or ancestor::footer or ancestor::strong or ancestor::b or ancestor::em or ancestor::i or ancestor::ins or ancestor::u or ancestor::del or ancestor::s or ancestor::strike or ancestor::code or ancestor::kbd or ancestor::samp or ancestor::tt or ancestor::mark or ancestor::sup or ancestor::pic or ancestor::sub or ancestor::a or ancestor::reference or ancestor::h1 or ancestor::h2 or ancestor::h3 or ancestor::h4 or ancestor::h5 or ancestor::h6 or ancestor::p or ancestor::pre or ancestor::hr or ancestor::img or ancestor::br]
+  @split_parent: $problems
+}
+
+#fix empty paras
+@remove: //p[not(text()) and not(node())]
+
+# fundamentals
 # title, category, author, date
 title: $body//h1[1]
 kicker: //span[has-class("category")]
 author:   $body//span[has-class("author")]
 author_url: //span[has-class("author")]/a/@href
 published_date: //div[has-class("date-time")]
+
+# set image captions for standalone images
+@wrap(<figure>): //img[not(./ancestor::*[has-class("carousel-container")])]
+<figcaption>: //p[has-class("image-description")]
+@append_to("./prev-sibling::figure"): //figcaption
 
 
 # post image subscript
@@ -33,6 +43,7 @@ published_date: //div[has-class("date-time")]
 
 
 # lead
+@wrap_inner(<b>): //*[has-class("lead")]
 @wrap(<lead>): //a[.//*[has-class("lead")]]
 <lead>: //b/span[./span[has-class("lead")]]
 @combine(<lead>)
@@ -41,6 +52,7 @@ published_date: //div[has-class("date-time")]
 
 <div>: //div[has-class("carousel-container")]/ul
 <figure>: //div[has-class("carousel-container")]/*/li
+
 
 <slideshow>: //div[has-class("carousel-container")]
 
@@ -58,14 +70,12 @@ published_date: //div[has-class("date-time")]
 @remove: //p[@id="expo-modal-label"]
 @remove: //div[has-class("rn-carousel-controls")]
 
+
 # pull video from list
 @split_parent: //div[has-class("video-wrapper")]
 $video_containers: //ul[div[has-class("video-wrapper")]]
 @remove: $video_containers/li
 <div>: $video_containers
-
-## only 5 articles
-@remove: //div[has-class("slick-track")]/div[position() >= 6]
 
 ## change afterpost image preview
 #<pic>: //img[has-class("article__image")]
@@ -123,3 +133,8 @@ $tags: //ul[has-class("tags")]
 
 # footer before related
 @before_el(//related): $footer
+
+# limit number of related to 5
+@append_to("./ancestor::related"): //related//a
+# @remove: //related/*[not(self::a)]
+@remove: //related/a[position() > 5]
