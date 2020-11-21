@@ -19,6 +19,9 @@ $problems: $body
   @split_parent: $problems
 }
 
+
+
+
 #fix empty paras
 @remove: //p[not(text()) and not(node())]
 
@@ -62,7 +65,7 @@ published_date: //div[has-class("date-time")]
   @append(@text): //slideshow/*/*/figcaption
   ## regex capture cleaning
   @replace(" — discours.io", ""): //slideshow/*/*/figcaption/text()
-  @replace("^(.+?), ", ""): //slideshow/*/*/figcaption/text()
+#   @replace("^(.+?), ", ""): //slideshow/*/*/figcaption/text()
 }
 
 # clean carousel
@@ -86,9 +89,18 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 @remove: //div[has-class("article__inner")]/a[position() >= 1]
 @remove: //div[has-class("article__details")]/*/*[has-class("article__category") or has-class("article__author")]
 
-## convert to related
-<related>: //div[has-class("after-post") or @id="popular-posts"]
+## related
+<related>: //div[has-class("after-post") or @id="popular-posts" or @id="popularPosts"]
+# limit number of related to 5
+@append_to("./ancestor::related"): //related//a
+# @remove: //related/*[not(self::a)]
+@remove: (//related)[2]/a[@href=(//related)[1]/a/@href]
+@remove: //related/a[position() > 3]
+
+@append_to($body): //related
+
 @set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=9ebd7b52652e1b"): //related//a
+
 
 # remove what we don't need in Instant View
 
@@ -133,8 +145,3 @@ $tags: //ul[has-class("tags")]
 
 # footer before related
 @before_el(//related): $footer
-
-# limit number of related to 5
-@append_to("./ancestor::related"): //related//a
-# @remove: //related/*[not(self::a)]
-@remove: //related/a[position() > 5]
