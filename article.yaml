@@ -20,8 +20,6 @@ $problems: $body
 }
 
 
-
-
 #fix empty paras
 @remove: //p[not(text()) and not(node())]
 
@@ -33,14 +31,14 @@ author: ""
 # set tagline
 @prepend(<p>): $body
 $tagline: $@
+@append_to($tagline): //span[has-class("category")]
 @if ( //span[has-class("author")] ) {
-  @append_to($tagline):   //span[has-class("author")]
   @append_to($tagline): " • "
+  @append_to($tagline):   //span[has-class("author")]
 }
+@append_to($tagline): " • "
 <span>: //div[has-class("date-time")]
 @append_to($tagline): $@
-@append_to($tagline): " • "
-@append_to($tagline): //span[has-class("category")]
 @set_attr(class, ""): $tagline/*
 @wrap(<footer>): $tagline
 
@@ -49,11 +47,8 @@ $tagline: $@
 <figcaption>: //p[has-class("image-description")]
 @append_to("./prev-sibling::figure"): //figcaption
 
-
-# post image subscript
-@wrap(<figure>, class, "title-image"): //img[has-class("expo-item-title-image")]
-<figcaption>: (//p[has-class("image-description")])[1]
-@append_to(//figure[has-class("title-image")])
+# set cover
+cover: $body//figure[./img[has-class("open-post-title-image") or has-class("expo-item-title-image")]]
 
 
 # lead
@@ -106,11 +101,11 @@ $video_containers: //ul[div[has-class("video-wrapper")]]
 @append_to("./ancestor::related"): //related//a
 # @remove: //related/*[not(self::a)]
 @remove: (//related)[2]/a[@href=(//related)[1]/a/@href]
+@set_attr(href, "https://discours.io", @href): //related/a
+@remove: //related/a[@href = //link[@rel="canonical"]/@href]
 @remove: //related/a[position() > 3]
-
 @append_to($body): //related
-
-@set_attr("href", "https://t.me/iv?url=https://discours.io", @href, "&rhash=9ebd7b52652e1b"): //related//a
+@set_attr("href", "https://t.me/iv?url=", @href, "&rhash=9ebd7b52652e1b"): //related//a
 
 
 # remove what we don't need in Instant View
@@ -156,3 +151,6 @@ $tags: //ul[has-class("tags")]
 
 # footer before related
 @before_el(//related): $footer
+
+# unsupport slideshows
+@unsupported: //slideshow
