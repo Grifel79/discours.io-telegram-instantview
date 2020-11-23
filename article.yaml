@@ -28,10 +28,21 @@ $problems: $body
 # fundamentals
 # title, category, author, date
 title: $body//h1[1]
-kicker: //span[has-class("category")]
-author:   $body//span[has-class("author")]
-author_url: //span[has-class("author")]/a/@href
-published_date: //div[has-class("date-time")]
+author: ""
+
+# set tagline
+@prepend(<p>): $body
+$tagline: $@
+@if ( //span[has-class("author")] ) {
+  @append_to($tagline):   //span[has-class("author")]
+  @append_to($tagline): " • "
+}
+<span>: //div[has-class("date-time")]
+@append_to($tagline): $@
+@append_to($tagline): " • "
+@append_to($tagline): //span[has-class("category")]
+@set_attr(class, ""): $tagline/*
+@wrap(<footer>): $tagline
 
 # set image captions for standalone images
 @wrap(<figure>): //img[not(./ancestor::*[has-class("carousel-container")])]
